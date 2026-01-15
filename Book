@@ -1,0 +1,36 @@
+package Project2;
+
+public class Book extends LibraryItem{
+    private String author;
+    private String isbn;
+
+    public Book(){
+        super();
+        author = "";
+        isbn = "";
+    }
+    public Book(String title, int year, String author, String isbn){
+        super(title, year);
+        this.author = author;
+        this.isbn = isbn;
+    }
+    public void setAuthor(String a){
+        this.author = a;
+    }
+    public String getAuthor(){
+        return this.author;
+    }
+    public void setNumOfTracks(String i){
+        this.isbn = i;
+    }
+    public String getNumOfTracks(){
+        return isbn;
+    }
+    public String toString(){
+        return super.toString() + ", Author: " + author + ", ISBN: " + isbn;
+    }
+    public String formatForCSV(){
+        return super.toString() + ", Author: " + author + ", ISBN: " + isbn;
+    }
+
+    }
