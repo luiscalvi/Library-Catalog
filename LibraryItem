@@ -1,0 +1,36 @@
+package Project2;
+
+public class LibraryItem {
+    private String title;
+    private int year;
+
+    public LibraryItem(){
+        title = "";
+        year = 0;
+    }
+    public LibraryItem(String title, int year){
+        this.title = title;
+        this.year = year;
+    }
+
+    public void setTitle(String t){
+        this.title = t;
+    }
+    public String getTitle(){
+        return this.title;
+    }
+    public void setYear(int y){
+        this.year = y;
+    }
+    public int setYear(){
+        return this.year;
+    }
+
+    public String toString(){
+        return "Title: " + title + ", Year: " + year;
+    }
+    public String formatForCSV(){
+        return "Title: " + title + ", Year: " + year;
+    }
+
+}
