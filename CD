@@ -1,0 +1,42 @@
+package Project2;
+
+public class CD extends LibraryItem {
+    private String artist;
+    private int numOfTracks;
+
+    public CD() {
+        super();
+        artist = "";
+        numOfTracks = 0;
+    }
+
+    public CD(String title, int year, String artist, int numOfTracks) {
+        super(title, year);
+        this.artist = artist;
+        this.numOfTracks = numOfTracks;
+    }
+
+    public void setArtist(String a) {
+        this.artist = a;
+    }
+
+    public String getArtist() {
+        return this.artist;
+    }
+
+    public void setNumOfTracks(int n) {
+        this.numOfTracks = n;
+    }
+
+    public int getNumOfTracks() {
+        return this.numOfTracks;
+    }
+
+    public String toString() {
+        return super.toString() + ", Artist: " + artist + ", Number of Tracks: " + numOfTracks;
+    }
+
+    public String formatForCSV() {
+        return super.toString() + ", Artist: " + artist + ", Number of Tracks: " + numOfTracks;
+    }
+}
