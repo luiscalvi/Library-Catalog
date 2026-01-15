@@ -1,0 +1,42 @@
+package Project2;
+
+public class DVD extends LibraryItem {
+    private String director;
+    private int duration;
+
+    public DVD() {
+        super();
+        director = "";
+        duration = 0;
+    }
+
+    public DVD(String title, int year, String director, int duration) {
+        super(title, year);
+        this.director = director;
+        this.duration = duration;
+    }
+
+    public void setDirector(String d) {
+        this.director = d;
+    }
+
+    public String getDirector() {
+        return this.director;
+    }
+
+    public void setDuration(int du) {
+        this.duration = du;
+    }
+
+    public int getDuration() {
+        return this.duration;
+    }
+
+    public String toString() {
+        return super.toString() + ", Director: " + director + ", Duration: " + duration;
+    }
+
+    public String formatForCSV() {
+        return super.toString() + ", Director: " + director + ", Duration: " + duration;
+    }
+}
