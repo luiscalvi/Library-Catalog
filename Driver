@@ -1,0 +1,261 @@
+package Project2;
+/*
+    NAME: Luis Calvillo
+    DATE: April 5th 2024
+    DESCRIPTION: program that develops a library catalog system that allows users to manage
+    books, CDs, and DVDs in the library's collection. The system should provide functionalities
+    for adding, removing, searching, and displaying items in the catalog.
+    TITLE: CSC 121 Project 3
+*/
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Driver {
+
+    public static void main(String[] args) {
+        ArrayList<LibraryItem> libraryItems = new ArrayList<>();
+        Scanner keyboard = new Scanner(System.in);
+
+        // Sample data
+        libraryItems.add(new Book("The Great Gatsby", 1975, "F. Scott Fitzgerald", "9780333791035"));
+        libraryItems.add(new CD("Blink-182", 2003, "Blink-182", 15));
+        libraryItems.add(new DVD("Seven", 1995, "David Fincher", 127));
+
+        System.out.println("Welcome to our library database!");
+        int choice = 0;
+
+        do {
+            System.out.println("\nSelect an option from our menu below:");
+            System.out.println("1: Display Entire Library Catalog");
+            System.out.println("2: Display Books only");
+            System.out.println("3: Display CDs only");
+            System.out.println("4: Display DVDs only");
+            System.out.println("5: Search by Title");
+            System.out.println("6: Add a new item");
+            System.out.println("7: Export Library Catalog to CSV");
+            System.out.println("8: Import new items from a CSV");
+            System.out.println("9: EXIT");
+            System.out.print("Enter your choice: ");
+
+            // guard non-integer input
+            if (!keyboard.hasNextInt()) {
+                System.out.println("Invalid input. Please enter a number 1–9.");
+                keyboard.nextLine();
+                continue;
+            }
+            choice = keyboard.nextInt();
+            keyboard.nextLine(); // clear newline
+
+            if (choice == 1) {
+                // Display all items
+                if (libraryItems.isEmpty()) {
+                    System.out.println("Catalog is empty.");
+                } else {
+                    for (LibraryItem item : libraryItems) {
+                        System.out.println(item);
+                        System.out.println();
+                    }
+                }
+
+            } else if (choice == 2) {
+                // Books only
+                boolean any = false;
+                for (LibraryItem item : libraryItems) {
+                    if (item instanceof Book) {
+                        System.out.println(item + "\n");
+                        any = true;
+                    }
+                }
+                if (!any) System.out.println("No books in catalog.");
+
+            } else if (choice == 3) {
+                // CDs only
+                boolean any = false;
+                for (LibraryItem item : libraryItems) {
+                    if (item instanceof CD) {
+                        System.out.println(item + "\n");
+                        any = true;
+                    }
+                }
+                if (!any) System.out.println("No CDs in catalog.");
+
+            } else if (choice == 4) {
+                // DVDs only
+                boolean any = false;
+                for (LibraryItem item : libraryItems) {
+                    if (item instanceof DVD) {
+                        System.out.println(item + "\n");
+                        any = true;
+                    }
+                }
+                if (!any) System.out.println("No DVDs in catalog.");
+
+            } else if (choice == 5) {
+                // Search by title (substring match, case-insensitive)
+                System.out.print("Enter title to search for: ");
+                String searchTitle = keyboard.nextLine().toLowerCase();
+
+                boolean found = false;
+                for (LibraryItem item : libraryItems) {
+                    if (item.getTitle().toLowerCase().contains(searchTitle)) {
+                        System.out.println(item + "\n");
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    System.out.println("No items found with the title: " + searchTitle);
+                }
+
+            } else if (choice == 6) {
+                // Add new item
+                System.out.println("Select the type of item to add:");
+                System.out.println("1. Book");
+                System.out.println("2. CD");
+                System.out.println("3. DVD");
+                System.out.print("Enter your choice: ");
+
+                if (!keyboard.hasNextInt()) {
+                    System.out.println("Invalid input. Returning to main menu.");
+                    keyboard.nextLine();
+                    continue;
+                }
+                int itemChoice = keyboard.nextInt();
+                keyboard.nextLine();
+
+                if (itemChoice == 1) {
+                    System.out.print("Enter the title of the book: ");
+                    String bookTitle = keyboard.nextLine();
+                    System.out.print("Enter the publication year: ");
+                    if (!keyboard.hasNextInt()) { System.out.println("Invalid year."); keyboard.nextLine(); continue; }
+                    int publicationYear = keyboard.nextInt(); keyboard.nextLine();
+                    System.out.print("Enter the author: ");
+                    String author = keyboard.nextLine();
+                    System.out.print("Enter the ISBN: ");
+                    String isbn = keyboard.nextLine();
+
+                    libraryItems.add(new Book(bookTitle, publicationYear, author, isbn));
+                    System.out.println("Book added successfully!");
+
+                } else if (itemChoice == 2) {
+                    System.out.print("Enter the title of the CD: ");
+                    String cdTitle = keyboard.nextLine();
+                    System.out.print("Enter the release year: ");
+                    if (!keyboard.hasNextInt()) { System.out.println("Invalid year."); keyboard.nextLine(); continue; }
+                    int releaseYear = keyboard.nextInt(); keyboard.nextLine();
+                    System.out.print("Enter the artist: ");
+                    String artist = keyboard.nextLine();
+                    System.out.print("Enter the number of tracks: ");
+                    if (!keyboard.hasNextInt()) { System.out.println("Invalid tracks."); keyboard.nextLine(); continue; }
+                    int numTracks = keyboard.nextInt(); keyboard.nextLine();
+
+                    libraryItems.add(new CD(cdTitle, releaseYear, artist, numTracks));
+                    System.out.println("CD added successfully!");
+
+                } else if (itemChoice == 3) {
+                    System.out.print("Enter the title of the DVD: ");
+                    String dvdTitle = keyboard.nextLine();
+                    System.out.print("Enter the release year: ");
+                    if (!keyboard.hasNextInt()) { System.out.println("Invalid year."); keyboard.nextLine(); continue; }
+                    int dvdReleaseYear = keyboard.nextInt(); keyboard.nextLine();
+                    System.out.print("Enter the director: ");
+                    String director = keyboard.nextLine();
+                    System.out.print("Enter the duration (in minutes): ");
+                    if (!keyboard.hasNextInt()) { System.out.println("Invalid duration."); keyboard.nextLine(); continue; }
+                    int duration = keyboard.nextInt(); keyboard.nextLine();
+
+                    libraryItems.add(new DVD(dvdTitle, dvdReleaseYear, director, duration));
+                    System.out.println("DVD added successfully!");
+
+                } else {
+                    System.out.println("Invalid choice! Please try again.");
+                }
+
+            } else if (choice == 7) {
+                // Export to CSV (type first, to make imports easy)
+                try (PrintWriter out = new PrintWriter(new FileOutputStream("output.csv"))) {
+                    for (LibraryItem item : libraryItems) {
+                        // Assumes each subclass’s formatForCSV() returns a comma-separated string WITHOUT the type,
+                        // e.g., Book: title,year,author,isbn
+                        String line;
+                        if (item instanceof Book) {
+                            line = "Book," + item.formatForCSV();
+                        } else if (item instanceof CD) {
+                            line = "CD," + item.formatForCSV();
+                        } else if (item instanceof DVD) {
+                            line = "DVD," + item.formatForCSV();
+                        } else {
+                            continue;
+                        }
+                        out.println(line);
+                    }
+                    System.out.println("Library catalog exported to output.csv successfully!");
+                } catch (FileNotFoundException e) {
+                    System.err.println("File could not be opened for writing.");
+                }
+
+            } else if (choice == 8) {
+                // Import new items from data.csv
+                int added = 0;
+                try (Scanner file = new Scanner(new FileInputStream("output.csv"))) {
+                    while (file.hasNextLine()) {
+                        String raw = file.nextLine().trim();
+                        if (raw.isEmpty()) continue;
+
+                        // Split by commas, trimming whitespace around fields
+                        String[] parts = raw.split("\\s*,\\s*");
+                        String type = parts[0];
+
+                        try {
+                            if (type.equalsIgnoreCase("Book")) {
+                                // Expect: Book,title,year,author,isbn
+                                if (parts.length < 5) { System.out.println("Skipping malformed Book line: " + raw); continue; }
+                                String title = parts[1];
+                                int year = Integer.parseInt(parts[2]);
+                                String author = parts[3];
+                                String isbn = parts[4];
+                                libraryItems.add(new Book(title, year, author, isbn));
+                                added++;
+                            } else if (type.equalsIgnoreCase("CD")) {
+                                // Expect: CD,title,year,artist,numTracks
+                                if (parts.length < 5) { System.out.println("Skipping malformed CD line: " + raw); continue; }
+                                String title = parts[1];
+                                int year = Integer.parseInt(parts[2]);
+                                String artist = parts[3];
+                                int numTracks = Integer.parseInt(parts[4]);
+                                libraryItems.add(new CD(title, year, artist, numTracks));
+                                added++;
+                            } else if (type.equalsIgnoreCase("DVD")) {
+                                // Expect: DVD,title,year,director,duration
+                                if (parts.length < 5) { System.out.println("Skipping malformed DVD line: " + raw); continue; }
+                                String title = parts[1];
+                                int year = Integer.parseInt(parts[2]);
+                                String director = parts[3];
+                                int duration = Integer.parseInt(parts[4]);
+                                libraryItems.add(new DVD(title, year, director, duration));
+                                added++;
+                            } else {
+                                System.out.println("Unknown type, skipping line: " + raw);
+                            }
+                        } catch (NumberFormatException nfe) {
+                            System.out.println("Bad number in line, skipping: " + raw);
+                        }
+                    }
+                    System.out.println("Imported " + added + " item(s) from data.csv.");
+                } catch (FileNotFoundException e) {
+                    System.err.println("File could not be opened (data.csv).");
+                }
+
+
+            } else if (choice != 9) {
+                System.out.println("Invalid choice! Please select again.");
+            }
+
+        }
+        while (choice != 9);
+
+        System.out.println("Ending program....");
+        keyboard.close();
+    }
+}
